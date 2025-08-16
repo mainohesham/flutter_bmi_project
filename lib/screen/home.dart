@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutters_project/component/ReusableCard.dart';
 import 'package:flutters_project/component/RoundedBTN.dart';
+import 'package:flutters_project/methods/CalBMI.dart';
+import 'package:flutters_project/screen/resultScreen.dart';
 
 enum Gender{
   Male,Female
@@ -18,7 +20,7 @@ class _HomeState extends State<Home>{
   final activeColor = Color(0xff1f2555);
   late Gender gender = Gender.Female;
   int _height = 150;
-  int _weight = 150;
+  int _weight = 60;
   int _age = 20;
   @override
   Widget build(BuildContext context) {
@@ -182,7 +184,18 @@ class _HomeState extends State<Home>{
           width: double.infinity,
           height: 50,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              CalculateBMI calBMI =  CalculateBMI(
+                height: _height,
+                weight: _weight
+              );
+              Navigator.push(context, MaterialPageRoute(builder: (ctx)=> ResultScreen(
+                bmiResult: calBMI.calculateBMI(),
+                result: calBMI.getResult(),
+                feedback1: calBMI.feedback(),
+                feedback2: calBMI.Nextfeedback(),
+              )));
+            },
             child: Text(
               'Calculate',
               style: TextStyle(
@@ -193,8 +206,7 @@ class _HomeState extends State<Home>{
             ),
             style: ElevatedButton.styleFrom(
               backgroundColor: Color(0xFFD82051),
-              shape: RoundedRectangleBorder(
-              ),
+              shape: RoundedRectangleBorder(),
             ),
           ),
         )
